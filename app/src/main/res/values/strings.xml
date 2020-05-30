@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QR Reader</string>
+    <string name="copyToClipBoardMessage">Mensaje copiado en el portapapeles.</string>
 </resources>

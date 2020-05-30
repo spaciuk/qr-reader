@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // creo el detector qr
         BarcodeDetector barcodeDetector =
                 new BarcodeDetector.Builder(this)
-                        .setBarcodeFormats(Barcode.QR_CODE)
+                        .setBarcodeFormats(Barcode.ALL_FORMATS)
                         .build();
 
         // creo la camara
