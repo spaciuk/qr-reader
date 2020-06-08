@@ -25,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private CameraSource cameraSource;
     private SurfaceView cameraView;
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
-    private String previousToken = "";
     private String currentToken = "";
-    public static final String EXTRA_MESSAGE = "";
+    private static final String EXTRA_MESSAGE = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,37 +100,10 @@ public class MainActivity extends AppCompatActivity {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                 if (barcodes.size() > 0) {
-
-                    // obtenemos el token
                     currentToken = barcodes.valueAt(0).displayValue.toString();
+                    Log.i("token", currentToken);
 
-                    // verificamos que el token anterior no se igual al actual
-                    // esto es util para evitar multiples llamadas empleando el mismo token
-                    if (!currentToken.equals(previousToken)) {
-
-                        // guardamos el ultimo token procesado
-                        previousToken = currentToken;
-                        Log.i("token", currentToken);
-
-                        showData();
-
-                        new Thread(new Runnable() {
-                            public void run() {
-                                try {
-                                    synchronized (this) {
-                                        wait(5000);
-                                        // limpiamos el token
-                                        previousToken = "";
-                                    }
-                                } catch (InterruptedException e) {
-                                    // TODO Auto-generated catch block
-                                    Log.e("Error", "Waiting didnt work!!");
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-                    }
+                    showData(currentToken);
                 }
             }
 
@@ -170,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
-    private void showData(){
+    private void showData(String currentToken){
         Intent intent = new Intent(this, DataViewerActivity.class);
         intent.putExtra(EXTRA_MESSAGE, currentToken);
         startActivity(intent);
